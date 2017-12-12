@@ -2,12 +2,12 @@
 
  @font-face {
   font-family: 'turing-machine-font';
-  src: url('../font/turing-machine-font.eot?80691007');
-  src: url('../font/turing-machine-font.eot?80691007#iefix') format('embedded-opentype'),
-       url('../font/turing-machine-font.woff2?80691007') format('woff2'),
-       url('../font/turing-machine-font.woff?80691007') format('woff'),
-       url('../font/turing-machine-font.ttf?80691007') format('truetype'),
-       url('../font/turing-machine-font.svg?80691007#turing-machine-font') format('svg');
+  src: url('font/turing-machine-font.eot?80691007');
+  src: url('font/turing-machine-font.eot?80691007#iefix') format('embedded-opentype'),
+       url('font/turing-machine-font.woff2?80691007') format('woff2'),
+       url('font/turing-machine-font.woff?80691007') format('woff'),
+       url('font/turing-machine-font.ttf?80691007') format('truetype'),
+       url('font/turing-machine-font.svg?80691007#turing-machine-font') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -17,7 +17,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'turing-machine-font';
-    src: url('../font/turing-machine-font.svg?80691007#turing-machine-font') format('svg');
+    src: url('font/turing-machine-font.svg?80691007#turing-machine-font') format('svg');
   }
 }
 */
