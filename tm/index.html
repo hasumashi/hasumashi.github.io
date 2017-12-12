@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Turing Machine Simulator</title>
+	<meta charset="UTF-8">
+	<link rel="icon" href="favicon.png">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Nunito" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="turing-machine-font.css">
+</head>
+<body>
+<div class="dropdown-menu context-menu">
+	<h6 class="menu-title dropdown-header">Menu</h6>
+	<a href="#" class="dropdown-item"><i class="icon-cancel"></i> Delete</a>
+	<a href="#" class="dropdown-item"><i class="icon-arrow-curved"></i> Rename</a>
+</div>
+
+<div class="d-flex flex-column align-items-stretch h-100">
+	<nav class="navbar navbar-main navbar-dark bg-dark">  <!-- fixed-top -->
+		<span class="navbar-brand">Turing Machine Simulator</span>
+	</nav>
+
+	<nav class="navbar navbar-secondary navbar-expand-lg navbar-light bg-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<!-- <li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li> -->
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Options
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<h6 class="dropdown-header">Machine</h6>
+						<a class="dropdown-item" href="#">
+							<i class="icon-save"></i>
+							Save
+						</a>
+						<a class="dropdown-item" href="#">
+							<i class="icon-load"></i>
+							Load
+						</a>
+						<a class="dropdown-item" href="#">
+							<i class="icon-cancel"></i>
+							Discard
+						</a>
+						<div class="dropdown-divider"></div>
+
+						<h6 class="dropdown-header">Export</h6>
+						<a class="dropdown-item" href="#" onclick="saveSVG()">
+							<i class="icon-download"></i>
+							Download
+						</a>
+						<a class="dropdown-item" href="#">
+							<i class="icon-upload"></i>
+							Open file
+						</a>
+						<div class="dropdown-divider"></div>
+
+						<h6 class="dropdown-header">Other</h6>
+						<a class="dropdown-item" href="#">
+							<i class="icon-settings"></i>
+							Setting
+						</a>
+					</div>
+				</li>
+				<!-- <li class="nav-item">
+					<a class="nav-link disabled" href="#">Disabled</a>
+				</li> -->
+			</ul>
+
+			<!-- <form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="search" placeholder="Input data" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Load</button>
+			</form> -->
+		</div>
+
+		<div class="machine-controls transform-center">
+			<button class="btn" title="Run machine" onclick="simulate()"> <!-- data-toggle="tooltip" data-placement="bottom" -->
+				<i class="icon-play text-success"></i>
+			</button>
+			<button class="btn" title="Step">
+				<i class="icon-arrow-curved text-primary"></i>
+			</button>
+			<button class="btn" title="Stop machine">
+				<i class="icon-stop text-danger"></i>
+			</button>
+		</div>
+
+		<div class="input-slider">
+			<span class="text-muted">
+				<i class="icon-gauge"></i>
+				Speed
+			</span>
+			<input class="bar" type="range" id="rangeinput" value="50"> <!-- TODO -->
+		</div>
+	</nav>
+
+	<main role="main" class="flex-grow d-flex flex-column">
+	
+		<div class="row flex-grow no-gutters">
+			<div class="col-auto machine-control-list">
+				<div class="list-group list-immersive">
+					<div href="#" class="list-group-item active">
+						<div class="row">
+							<div class="col">State</div>
+							<div class="col">Input</div>
+							<div class="col">Output</div>
+							<div class="col">Move</div>
+							<div class="col">Next</div>
+						</div>
+					</div>
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col">A</div>
+							<div class="col">0</div>
+							<div class="col">1</div>
+							<div class="col"><i class="icon-right"></i></div>
+							<div class="col">B</div>
+						</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col">A</div>
+							<div class="col">1</div>
+							<div class="col">1</div>
+							<div class="col"><i class="icon-right"></i></div>
+							<div class="col">A</div>
+						</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col">B</div>
+							<div class="col">0</div>
+							<div class="col">0</div>
+							<div class="col"><i class="icon-left"></i></div>
+							<div class="col">C</div>
+						</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col">B</div>
+							<div class="col">1</div>
+							<div class="col">1</div>
+							<div class="col"><i class="icon-right"></i></div>
+							<div class="col">B</div>
+						</div>
+					</a>
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col">C</div>
+							<div class="col">1</div>
+							<div class="col">0</div>
+							<div class="col"><i class="icon-down"></i></div>
+							<div class="col">F</div>
+						</div>
+					</a>
+				</div>
+			</div>
+
+			<div class="col graph-editor" id="graph-editor"></div>
+		</div>
+
+		<div class="row no-gutters">
+			<div class="col">
+				<div class="machine-tape border-secondary">
+					<div id="machine-frame">
+						<span>State</span>
+					</div>
+
+					<div class="segment">0</div>
+					<div class="segment">0</div>
+					<div class="segment">0</div>
+					<div class="segment">0</div>
+					<div class="segment">0</div>
+					<div class="segment">1</div>
+					<div class="segment">1</div>
+					<div class="segment">1</div>
+					<div class="segment">0</div>
+					<div class="segment">1</div>
+					<div class="segment">1</div>
+					<div class="segment">1</div>
+				</div>
+			</div>
+		</div>
+	
+	</main><!-- /.container -->
+</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
+	<script src="svg.draggable.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
